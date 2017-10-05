@@ -1,0 +1,7 @@
+endpoints:
+    metrics:
+        enabled: true
+        jmx:
+            enabled: true
+        web:
+            enabled: true
