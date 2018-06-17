@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.web.server.HttpSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.MapUserDetailsRepository;
+import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsRepository;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -59,15 +59,15 @@ class WebConfiguration {
 class SecurityConfiguration {
 
 	@Bean
-    UserDetailsRepository userDetailsRepository() {
+	ReactiveUserDetailsService userDetailsRepository() {
 		UserDetails josete = User.withUsername("josete").roles("USER").password("password").build();
 		UserDetails almu = User.withUsername("almu").roles("USER","ADMIN").password("password").build();
 
-		return new MapUserDetailsRepository(josete,almu);
+		return new MapReactiveUserDetailsService(josete,almu);
 	}
 
 	@Bean
-    SecurityWebFilterChain security(HttpSecurity httpSecurity) {
+    SecurityWebFilterChain security(ServerHttpSecurity httpSecurity) {
 		return httpSecurity
 				.authorizeExchange()
                 .pathMatchers("/users/{username}")

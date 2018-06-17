@@ -1,7 +1,5 @@
-endpoints:
+management:
     metrics:
-        enabled: true
-        jmx:
-            enabled: true
-        web:
-            enabled: true
+       enable:
+         root: true
+         jvm: true
